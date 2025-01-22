@@ -1,15 +1,10 @@
 import { Rect } from 'react-native-svg';
+import type { InternalOptions } from '../types';
 
 interface BarcodeChunkProps {
   binary: string;
   padding: number;
-  options: {
-    textPosition: string;
-    fontSize: number;
-    textMargin: number;
-    width: number;
-    height: number;
-  };
+  options: InternalOptions;
 }
 
 export const BarcodeChunk = ({ binary, padding, options }: BarcodeChunkProps) => {

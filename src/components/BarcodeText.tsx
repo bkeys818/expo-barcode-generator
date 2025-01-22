@@ -1,18 +1,11 @@
 import { Text, TextAnchor } from 'react-native-svg';
+import type { InternalOptions } from '../types';
 
 interface BarcodeTextProps {
   text: string;
   width: number;
   padding: number;
-  options: {
-    displayValue: boolean;
-    textPosition: 'top' | 'bottom';
-    fontSize: number;
-    textMargin: number;
-    textAlign: 'left' | 'right' | 'center';
-    height: number;
-    lineColor: string;
-  };
+  options: InternalOptions;
 }
 
 export const BarcodeText = ({ text, width, padding, options }: BarcodeTextProps) => {
@@ -45,7 +38,7 @@ export const BarcodeText = ({ text, width, padding, options }: BarcodeTextProps)
         x={x}
         y={y}
         fontSize={options.fontSize}
-        fontWeight="bold"
+        fontWeight={options.fontOptions}
         textAnchor={textAnchor}
         fill={options.lineColor}
       >
