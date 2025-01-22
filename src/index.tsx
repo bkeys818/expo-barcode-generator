@@ -33,13 +33,8 @@ export const Barcode = ({ value, options, rotation }: BarcodeProps) => {
 
   return (
     <Svg
-      x={0}
-      y={0}
       width={width}
       height={maxHeight}
-      viewBox={`0 0 ${width} ${maxHeight}`}
-      originX={0}
-      originY={0}
       rotation={rotation}
       style={{ backgroundColor: options?.background }}
     >
