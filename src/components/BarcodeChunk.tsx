@@ -1,7 +1,18 @@
 import { Rect } from 'react-native-svg';
-import PropTypes from 'prop-types';
 
-export const BarcodeChunk = ({ binary, padding, options }) => {
+interface BarcodeChunkProps {
+  binary: string;
+  padding: number;
+  options: {
+    textPosition: string;
+    fontSize: number;
+    textMargin: number;
+    width: number;
+    height: number;
+  };
+}
+
+export const BarcodeChunk = ({ binary, padding, options }: BarcodeChunkProps) => {
   // Creates the barcode out of the encoded binary
   let yFrom;
   if (options.textPosition == 'top') {
@@ -42,16 +53,4 @@ export const BarcodeChunk = ({ binary, padding, options }) => {
   return bars.map((bar, i) => (
     <Rect key={i} x={bar.x} y={bar.y} width={bar.width} height={bar.height} />
   ));
-};
-
-BarcodeChunk.propTypes = {
-  padding: PropTypes.number,
-  binary: PropTypes.string,
-  options: PropTypes.shape({
-    textPosition: PropTypes.oneOf(['top', 'bottom']),
-    fontSize: PropTypes.number,
-    textMargin: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number
-  })
 };

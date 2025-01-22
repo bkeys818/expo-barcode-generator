@@ -1,10 +1,24 @@
-import { Text } from 'react-native-svg';
-import PropTypes from 'prop-types';
+import { Text, TextAnchor } from 'react-native-svg';
 
-export const BarcodeText = ({ text, width, padding, options }) => {
+interface BarcodeTextProps {
+  text: string;
+  width: number;
+  padding: number;
+  options: {
+    displayValue: boolean;
+    textPosition: 'top' | 'bottom';
+    fontSize: number;
+    textMargin: number;
+    textAlign: 'left' | 'right' | 'center';
+    height: number;
+    lineColor: string;
+  };
+}
+
+export const BarcodeText = ({ text, width, padding, options }: BarcodeTextProps) => {
   // Draw the text if displayValue is set
   if (options.displayValue) {
-    let x, y, textAnchor;
+    let x: number, y: number, textAnchor: TextAnchor;
 
     if (options.textPosition == 'top') {
       y = options.fontSize - options.textMargin;
@@ -41,19 +55,4 @@ export const BarcodeText = ({ text, width, padding, options }) => {
   } else {
     return null;
   }
-};
-
-BarcodeText.propTypes = {
-  text: PropTypes.string,
-  width: PropTypes.number,
-  padding: PropTypes.number,
-  options: PropTypes.shape({
-    displayValue: PropTypes.bool,
-    textPosition: PropTypes.oneOf(['top', 'bottom']),
-    fontSize: PropTypes.number,
-    textMargin: PropTypes.number,
-    textAlign: PropTypes.oneOf(['left', 'right', 'center']),
-    height: PropTypes.number,
-    lineColor: PropTypes.string
-  })
 };

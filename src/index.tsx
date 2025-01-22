@@ -1,6 +1,5 @@
 import Svg, { G } from 'react-native-svg';
 import JSBarcode from 'jsbarcode';
-import PropTypes from 'prop-types';
 
 import { Background, BarcodeChunk, BarcodeText } from './components';
 import {
@@ -9,36 +8,28 @@ import {
   merge,
   calculateEncodingAttributes
 } from './services';
+import defaultOptions from './defaultOptions';
+import type { BarcodeData, BarcodeOptions, Encoding } from './types';
 
-export const Barcode = ({ value, options, rotation }) => {
+export interface BarcodeProps {
+  value: string;
+  options?: BarcodeOptions;
+  rotation?: number;
+}
+
+export const Barcode = ({ value, options, rotation }: BarcodeProps) => {
   const barcode = {};
-  const defaultOptions = {
-    background: '#ffffff',
-    displayValue: true,
-    fontOptions: 'bold',
-    fontSize: 20,
-    height: 100,
-    lineColor: '#000000',
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10,
-    textAlign: 'center',
-    textMargin: 2,
-    textPosition: 'bottom',
-    width: 2
-  };
   JSBarcode(barcode, value, options);
-  const encodings = barcode.encodings;
-  const mergedOptions = merge(defaultOptions, options);
+  const encodings: Encoding[] = (barcode as BarcodeData).encodings;
+  const mergedOptions = { ...defaultOptions, ...options };
 
-  calculateEncodingAttributes(encodings, mergedOptions);
-  const totalWidth = getTotalWidthOfEncodings(encodings);
-  const maxHeight = getMaximumHeightOfEncodings(encodings);
+  const measuredEncoding = calculateEncodingAttributes(encodings, mergedOptions);
+  const totalWidth = getTotalWidthOfEncodings(measuredEncoding);
+  const maxHeight = getMaximumHeightOfEncodings(measuredEncoding);
   const width = totalWidth + mergedOptions.marginLeft + mergedOptions.marginRight;
 
   const xs = [mergedOptions.marginLeft];
-  encodings.forEach(e => xs.push(xs[xs.length - 1] + e.width));
+  measuredEncoding.forEach(e => xs.push(xs[xs.length - 1] + e.width));
 
   return (
     <Svg
@@ -51,11 +42,11 @@ export const Barcode = ({ value, options, rotation }) => {
       originY={0}
       rotation={rotation}
     >
-      {options.background && (
+      {options?.background && (
         <Background width={width} height={maxHeight} color={options.background} />
       )}
-      {encodings.map((encoding, i) => {
-        const encodingOptions = merge(options, encoding.options);
+      {measuredEncoding.map((encoding, i) => {
+        const encodingOptions = merge(mergedOptions, encoding.options);
 
         return (
           <G key={i} x={xs[i]} y={encodingOptions.marginTop} fill={encodingOptions.lineColor}>
@@ -75,9 +66,4 @@ export const Barcode = ({ value, options, rotation }) => {
       })}
     </Svg>
   );
-};
-Barcode.propTypes = {
-  rotation: PropTypes.number,
-  options: PropTypes.object,
-  value: PropTypes.string.isRequired
 };
