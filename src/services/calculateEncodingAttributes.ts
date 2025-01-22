@@ -1,4 +1,3 @@
-import { merge } from './merge';
 import { messureText } from './messureText';
 import { getBarcodePadding } from './getBarcodePadding';
 import { getEncodingHeight } from './getEncodingHeight';
@@ -9,7 +8,7 @@ export function calculateEncodingAttributes(
   barcodeOptions: InternalOptions
 ) {
   return encodings.map<MeasuredEncoding>(encoding => {
-    const options = merge(barcodeOptions, encoding.options);
+    const options = { ...barcodeOptions, ...encoding.options };
 
     // Calculate the width of the encoding
     let textWidth;

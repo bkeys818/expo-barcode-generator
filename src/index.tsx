@@ -1,11 +1,10 @@
 import Svg, { G } from 'react-native-svg';
 import JSBarcode from 'jsbarcode';
 
-import { Background, BarcodeChunk, BarcodeText } from './components';
+import { BarcodeChunk, BarcodeText } from './components';
 import {
   getMaximumHeightOfEncodings,
   getTotalWidthOfEncodings,
-  merge,
   calculateEncodingAttributes
 } from './services';
 import defaultOptions from './defaultOptions';
@@ -33,20 +32,13 @@ export const Barcode = ({ value, options, rotation }: BarcodeProps) => {
 
   return (
     <Svg
-      x={0}
-      y={0}
       width={width}
       height={maxHeight}
-      viewBox={`0 0 ${width} ${maxHeight}`}
-      originX={0}
-      originY={0}
       rotation={rotation}
+      style={{ backgroundColor: options?.background }}
     >
-      {options?.background && (
-        <Background width={width} height={maxHeight} color={options.background} />
-      )}
       {measuredEncoding.map((encoding, i) => {
-        const encodingOptions = merge(mergedOptions, encoding.options);
+        const encodingOptions = { ...mergedOptions, ...encoding.options };
 
         return (
           <G key={i} x={xs[i]} y={encodingOptions.marginTop} fill={encodingOptions.lineColor}>

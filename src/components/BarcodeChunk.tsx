@@ -1,56 +1,22 @@
-import { Rect } from 'react-native-svg';
+import { G, Rect } from 'react-native-svg';
+import type { InternalOptions } from '../types';
+import { getBarsFromBinary } from '../services/getBarsFromBinary';
 
 interface BarcodeChunkProps {
   binary: string;
   padding: number;
-  options: {
-    textPosition: string;
-    fontSize: number;
-    textMargin: number;
-    width: number;
-    height: number;
-  };
+  options: InternalOptions;
 }
 
 export const BarcodeChunk = ({ binary, padding, options }: BarcodeChunkProps) => {
-  // Creates the barcode out of the encoded binary
-  let yFrom;
-  if (options.textPosition == 'top') {
-    yFrom = options.fontSize + options.textMargin;
-  } else {
-    yFrom = 0;
-  }
+  const bars = getBarsFromBinary(binary, options.width);
+  const y = options.textPosition == 'top' ? options.fontSize + options.textMargin : 0;
 
-  let barWidth = 0;
-  let x = 0;
-  const bars = [];
-  for (let b = 0; b < binary.length; b++) {
-    x = b * options.width + padding;
-
-    if (binary[b] === '1') {
-      barWidth++;
-    } else if (barWidth > 0) {
-      bars.push({
-        x: x - options.width * barWidth,
-        y: yFrom,
-        width: options.width * barWidth,
-        height: options.height
-      });
-      barWidth = 0;
-    }
-  }
-
-  // Last draw is needed since the barcode ends with 1
-  if (barWidth > 0) {
-    bars.push({
-      x: x - options.width * (barWidth - 1),
-      y: yFrom,
-      width: options.width * barWidth,
-      height: options.height
-    });
-  }
-
-  return bars.map((bar, i) => (
-    <Rect key={i} x={bar.x} y={bar.y} width={bar.width} height={bar.height} />
-  ));
+  return (
+    <G x={padding}>
+      {bars.map((bar, i) => (
+        <Rect key={i} x={bar.x} y={y} width={bar.width} height={options.height} />
+      ))}
+    </G>
+  );
 };
