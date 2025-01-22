@@ -27,8 +27,14 @@
     "Barcode",
     "Expo"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "tsconfig.json"
+  ],
   "scripts": {
+    "build": "tsc",
     "lint": "eslint \"./**/*.{js,jsx}\" --fix",
     "lint:ci": "eslint \"./**/*.{js,jsx}\"",
     "prepare": "husky",
