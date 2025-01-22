@@ -7,5 +7,5 @@ interface BarcodeProps {
 }
 
 export const Background = ({ width, height, color }: BarcodeProps) => (
-  <Rect x={0} y={0} width={width} height={height} style={{ fill: color }} />
+  <Rect x={0} y={0} width={width} height={height} fill={color} />
 );
