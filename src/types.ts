@@ -1,10 +1,18 @@
 import type JSBarcode from 'jsbarcode';
 import type defaultOptions from './defaultOptions';
 
+export type BarcodeOptions = JSBarcode.Options & {
+  textPosition?: 'top' | 'bottom';
+  textAlign?: 'left' | 'right' | 'center';
+};
+
+export type InternalOptions = BarcodeOptions &
+  Required<Pick<BarcodeOptions, keyof typeof defaultOptions>>;
+
 /** Derived from `jsbarcode` */
 export interface Encoding {
   data: string;
-  options: JSBarcode.Options;
+  options: BarcodeOptions;
   text: string;
 }
 
@@ -17,5 +25,3 @@ export interface MeasuredEncoding extends Encoding {
   height: number;
   barcodePadding: number;
 }
-
-export type InternalOptions = JsBarcode.Options & typeof defaultOptions;

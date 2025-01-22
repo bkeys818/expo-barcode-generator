@@ -9,11 +9,11 @@ import {
   calculateEncodingAttributes
 } from './services';
 import defaultOptions from './defaultOptions';
-import type { BarcodeData, InternalOptions, Encoding } from './types';
+import type { BarcodeData, BarcodeOptions, Encoding } from './types';
 
 export interface BarcodeProps {
   value: string;
-  options?: JSBarcode.Options;
+  options?: BarcodeOptions;
   rotation?: number;
 }
 
@@ -21,7 +21,7 @@ export const Barcode = ({ value, options, rotation }: BarcodeProps) => {
   const barcode = {};
   JSBarcode(barcode, value, options);
   const encodings: Encoding[] = (barcode as BarcodeData).encodings;
-  const mergedOptions: InternalOptions = { ...defaultOptions, ...options };
+  const mergedOptions = { ...defaultOptions, ...options };
 
   const measuredEncoding = calculateEncodingAttributes(encodings, mergedOptions);
   const totalWidth = getTotalWidthOfEncodings(measuredEncoding);

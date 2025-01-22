@@ -1,4 +1,4 @@
-import type { Options } from 'jsbarcode';
+import type { BarcodeOptions } from './types';
 
 const defaultOptions = {
   background: '#ffffff',
@@ -15,5 +15,5 @@ const defaultOptions = {
   textMargin: 2,
   textPosition: 'bottom',
   width: 2
-} satisfies Options;
+} satisfies BarcodeOptions;
 export default defaultOptions;
