@@ -5,7 +5,6 @@ import { BarcodeChunk, BarcodeText } from './components';
 import {
   getMaximumHeightOfEncodings,
   getTotalWidthOfEncodings,
-  merge,
   calculateEncodingAttributes
 } from './services';
 import defaultOptions from './defaultOptions';
@@ -39,7 +38,7 @@ export const Barcode = ({ value, options, rotation }: BarcodeProps) => {
       style={{ backgroundColor: options?.background }}
     >
       {measuredEncoding.map((encoding, i) => {
-        const encodingOptions = merge(mergedOptions, encoding.options);
+        const encodingOptions = { ...mergedOptions, ...encoding.options };
 
         return (
           <G key={i} x={xs[i]} y={encodingOptions.marginTop} fill={encodingOptions.lineColor}>
