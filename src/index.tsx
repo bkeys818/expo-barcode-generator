@@ -35,7 +35,7 @@ export const Barcode = ({ value, options, rotation }: BarcodeProps) => {
       width={width}
       height={maxHeight}
       rotation={rotation}
-      style={{ backgroundColor: options?.background }}
+      style={{ backgroundColor: mergedOptions.background }}
     >
       {measuredEncoding.map((encoding, i) => {
         const encodingOptions = { ...mergedOptions, ...encoding.options };
